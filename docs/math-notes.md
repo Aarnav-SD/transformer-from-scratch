@@ -91,3 +91,60 @@ The above code does the following:
 $$
 Softmax(x_i) = \frac{e^{x_i}}{\sum_j{e^{x_j}}}
 $$
+
+## The derivative of softmax
+
+Consider the following softmax function for 3 class labels `x`, `y`, and `z`:
+$$
+Softmax_x(x) = \frac{e^x}{e^x + e^y + e^z} = P(x) \rightarrow [1]
+$$
+where $P(x)$ is the probability that the outcome belongs to class `x`.  
+  
+To find the derivative of the softmax function we need to use the `Quotient Rule`. Consider the function $f(x) = \frac{U}{V}$ then the Quotient Rule says:
+$$
+\frac{df(x)}{fx} = \frac{(\frac{d(U)}{dx} \times V) - (\frac{d(V)}{dx} \times U)}{V^2}
+$$
+
+The derivative of $Softmax_x(x)$ w.r.t `x` is:
+$$
+\frac{d Softmax_x(x)}{dx} = \frac{(e^x \times (e^x + e^y + e^z)) - (e^x \times e^x)}{(e^x + e^y + e^z)^2}
+$$
+
+$$
+\frac{d Softmax_x(x)}{dx} = \frac{e^x \times [(e^x + e^y + e^z) - (e^x)]}{(e^x + e^y + e^z)^2}
+$$
+
+$$
+\frac{d Softmax_x(x)}{dx} = \frac{e^x}{e^x + e^y + e^z} \times \frac{(e^x + e^y + e^z) - (e^x)}{e^x + e^y + e^z}
+$$
+
+From eqn $[1]$ we can say that
+$$
+\frac{d Softmax_x(x)}{dx} = P(x) \times [\frac{(e^x + e^y + e^z) }{e^x + e^y + e^z} - \frac{(e^x)}{e^x + e^y + e^z}]
+$$
+Finally, 
+$$
+\frac{d Softmax_x(x)}{dx} = P(x) \times (1 - P(x)) \rightarrow [2]
+$$
+
+Derivative of $Softmax_x(x)$ w.r.t `y` is:
+$$
+\frac{d Softmax_x(x)}{dy} = \frac{0 - (e^y \times e^x)}{(e^x + e^y + e^z)^2}
+$$
+$$
+\frac{d Softmax_x(x)}{dy} = \frac{- e^y}{e^x + e^y + e^z} \times \frac{e^x}{e^x + e^y + e^z}
+$$
+$$
+\frac{d Softmax_x(x)}{dy} = -P(y) \times P(x) \rightarrow [3]
+$$
+
+# Cross Entropy Loss
+The general formula for cross entropy loss is:
+$$
+CE = - \sum_{c=1}^M (observed_c \times log(predicted_c))
+$$
+
+For some class `x` cross entropy is given by:
+$$
+Cross Entopy_x = -log(P(x))
+$$
